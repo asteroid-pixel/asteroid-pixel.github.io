@@ -10,7 +10,7 @@
     "name": "Admin Account",
     "username": "admin",
     "password": "Rich6696?",
-    "banStatus": false,
+    "banStatus": false
   },
   {
     "name": "Brayden Parker",
@@ -23,24 +23,24 @@
     "name": "Evan Day",
     "username": "Unsupervisedmale",
     "password": "Evan2011!",
-    "banStatus": false,
+    "banStatus": false
   },
   {
     "name": "Morgan Padgett",
     "username": "PadgettBoys8198",
     "password": "apple_cider",
-    "banStatus": false,
+    "banStatus": false
   },
   {
     "name": "Raina Diaz",
     "username": "Daina-Riaz",
     "password": "Diaz0920",
-    "banStatus": false,
+    "banStatus": false
   },
   {
     "name": "Cam Cordes",
     "username": "Camallen2010",
     "password": "Cor004167",
-    "banStatus": false,
+    "banStatus": false
   }
 ]

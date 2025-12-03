@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Asteroid</title>
+  <link rel="icon" type="image/jpeg" href="asteroid.jpeg">
+  <style>
+    /* Reset & base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #fff;
+    }
+
+    /* Login form */
+    #login-form {
+      background: none;
+      backdrop-filter: none;
+      border-radius: 0;
+      padding: 0;
+      width: 800px;
+      margin: 80px auto;
+      box-shadow: none;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    #login-form.hidden {
+      display: none;
+    }
+
+    #login-form input {
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 15px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #login-form input:focus {
+      transform: scale(1.03);
+      box-shadow: 0 0 12px #00c6ff;
+    }
+
+    /* Buttons (Login + Link) */
+    #login-form button,
+    #link-btn {
+      display: inline-block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    #login-form button:hover,
+    #link-btn:hover {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    /* Messages */
+    #form-message {
+      margin-top: 18px;
+      font-size: 14px;
+      text-align: center;
+      animation: fadeInUp 1s ease forwards;
+      min-height: 24px;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login form (shown only before login) -->
+  <form id="login-form">
+    <h1 id="login-title">Log In</h1>
+    <input id="username" type="text" placeholder="Username" required />
+    <input id="password" type="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJNsYOvW22W0-7_4gFlp6-Kk_YoMGVBNIuKqs1VFjPXio_Cw/viewform" id="link-btn" target="_blank" rel="noopener noreferrer">Request an Account</a>
+  </form>
+
+  <p id="form-message"></p>
+
+  <!-- Logged-in view is empty, content replaced by navigation -->
+  <div class="app hidden"></div>
+
+  <script type="module">
+    (async function login() {
+      const LOGINS = "./logins.json";
+      const loginForm = document.getElementById("login-form");
+      const formMessage = document.getElementById("form-message");
+      const app = document.querySelector(".app");
+
+      let storedLogin = [];
+
+      async function fetchLogins() {
+        try {
+          const response = await fetch(LOGINS);
+          if (response.ok) {
+            storedLogin = await response.json();
+          } else {
+            formMessage.textContent = "Failed to fetch login data.";
+          }
+        } catch (e) {
+          console.error("Error fetching logins.json:", e);
+        }
+      }
+
+      await fetchLogins();
+
+      if (loginForm) {
+        loginForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+
+          const userName = document.getElementById("username").value;
+          const passWord = document.getElementById("password").value;
+
+          const matchedLogin = storedLogin.find(
+            (login) => login.username === userName && login.password === passWord
+          );
+
+          if (matchedLogin) {
+            if (matchedLogin.banStatus === "true") {
+              formMessage.textContent = `⚠️ Your account has been banned. Reason: ${matchedLogin.banReason || "No reason provided."}`;
+              formMessage.classList.add("ban-message");
+              loginForm.reset();
+              return;
+            } else {
+              formMessage.classList.remove("ban-message");
+            }
+
+            loginForm.classList.add("hidden");
+            app.classList.remove("hidden");
+
+            sessionStorage.setItem("usernamePassword", JSON.stringify(matchedLogin));
+
+            formMessage.textContent = "You will be logged out after you close the browser window";
+
+            // Navigate to tetris.html in the same tab
+            window.location.href = "tetris.html";
+          } else {
+            formMessage.textContent = "Invalid username or password.";
+            formMessage.classList.remove("ban-message");
+          }
+
+          loginForm.reset();
+        });
+      }
+
+      // Restore session if already logged in
+      const retrievedLogin = JSON.parse(sessionStorage.getItem("usernamePassword"));
+      if (retrievedLogin) {
+        loginForm.classList.add("hidden");
+        app.classList.remove("hidden");
+        // Navigate to tetris.html in the same tab
+        window.location.href = "tetris.html";
+      }
+
+      // Logout on tab close
+      window.addEventListener("beforeunload", () => {
+        sessionStorage.clear();
+      });
+
+      // Sleep detection: refresh if computer slept > 2 minutes
+      let lastCheck = Date.now();
+      const SLEEP_THRESHOLD = 2 * 60 * 1000;
+
+      setInterval(() => {
+        const now = Date.now();
+        const diff = now - lastCheck;
+        lastCheck = now;
+
+        if (diff > SLEEP_THRESHOLD) {
+          localStorage.setItem("inactivityLogout", "true");
+          sessionStorage.clear();
+          location.reload();
+        }
+      }, 30000);
+
+      // Show inactivity message if flagged
+      if (localStorage.getItem("inactivityLogout") === "true") {
+        formMessage.textContent = "You have been logged out due to inactivity.";
+        formMessage.classList.remove("ban-message");
+        localStorage.removeItem("inactivityLogout");
+      }
+    })();
+  </script>
+</body>
+</html>

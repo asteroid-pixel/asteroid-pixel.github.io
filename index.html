@@ -289,7 +289,7 @@ window.addEventListener("beforeunload", () => {
       }
       // Show refresh message if flagged
 if (localStorage.getItem("refreshLogout") === "true") {
-  formMessage.textContent = "Tou have been returned to login due to a detected page refresh.";
+  formMessage.textContent = "You have been returned to login due to a detected page refresh.";
   formMessage.classList.remove("ban-message");
   localStorage.removeItem("refreshLogout");
 }

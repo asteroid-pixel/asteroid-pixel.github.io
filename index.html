@@ -119,7 +119,7 @@
 
   <script type="module">
     (async function login() {
-      const LOGINS = "./logins.json";
+      const LOGINS = `./logins.json?nocache=${Date.now()}`;
       const loginForm = document.getElementById("login-form");
       const formMessage = document.getElementById("form-message");
       const app = document.querySelector(".app");

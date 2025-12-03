@@ -16,7 +16,8 @@
     "name": "Brayden Parker",
     "username": "BONEYHUN1",
     "password": "Brayden16?",
-    "banStatus": "false"
+    "banStatus": "true",
+    banReason:"Too big."
   },
   {
     "name": "Evan Day",
@@ -28,6 +29,18 @@
     "name": "Morgan Padgett",
     "username": "PadgettBoys8198",
     "password": "apple_cider",
+    "banStatus": "false"
+  },
+   {
+    "name": "Raina Diaz",
+    "username": "Daina-Riaz",
+    "password": "Diaz0920",
+    "banStatus": "false"
+  },
+  {
+    "name": "Cam Cordes",
+    "username": "Camallen2010",
+    "password": "Cor004167",
     "banStatus": "false"
   }
 ]

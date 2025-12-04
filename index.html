@@ -255,14 +255,8 @@ sessionStorage.clear();
         loginForm.classList.add("hidden");
         app.classList.remove("hidden");
         // Navigate to tetris.html in the same tab
-        window.location.href = "tetris.html";
+        window.location.href = "file-main+content_version-1_56_843_22.html";
       }
-
-      // Logout on tab close or refresh
-window.addEventListener("beforeunload", () => {
-  localStorage.setItem("refreshLogout", "true");  // <-- NEW line
-  sessionStorage.clear();
-});
 
 
       // Sleep detection: refresh if computer slept > 2 minutes

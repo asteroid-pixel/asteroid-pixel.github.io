@@ -448,6 +448,20 @@
   </footer>
 
   <script>
+    // Check for active login session
+  const retrievedLogin = sessionStorage.getItem("usernamePassword");
+
+  // If no session, redirect to login
+  if (!retrievedLogin) {
+    window.location.href = "index.html"; // <-- replace with your login page filename
+  }
+
+  // On refresh, clear session and redirect to login
+  window.addEventListener("beforeunload", () => {
+    sessionStorage.clear();
+    localStorage.setItem("refreshLogout", "true");
+  });
+    
     const container = document.getElementById('container');
     const zoneViewer = document.getElementById('zoneViewer');
     let zoneFrame = document.getElementById('zoneFrame');

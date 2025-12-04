@@ -633,41 +633,51 @@
       });
     }
 
-    function saveData() {
-      let data = JSON.stringify(localStorage) + "\n\n|\n\n" + document.cookie;
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
-      link.download = `${Date.now()}.data`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
+function saveData() {
+  // Build an object of all localStorage key/value pairs
+  let storageObj = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    storageObj[key] = localStorage.getItem(key);
+  }
 
-    function loadData(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const content = e.target.result;
-        const [localStorageData, cookieData] = content.split("\n\n|\n\n");
-        try {
-          const parsedData = JSON.parse(localStorageData);
-          for (let key in parsedData) {
-            localStorage.setItem(key, parsedData[key]);
-          }
-        } catch (error) {
-          console.error(error);
-        }
-        if (cookieData) {
-          const cookies = cookieData.split("; ");
-          cookies.forEach(cookie => {
-            document.cookie = cookie;
-          });
-        }
-        alert("Data loaded");
-      };
-      reader.readAsText(file);
+  // Combine with cookies
+  let data = JSON.stringify(storageObj, null, 2) + "\n\n|\n\n" + document.cookie;
+
+  // Trigger download
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(new Blob([data], { type: "text/plain" }));
+  link.download = `${Date.now()}.data`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function loadData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    const content = e.target.result;
+    const [localStorageData, cookieData] = content.split("\n\n|\n\n");
+    try {
+      const parsedData = JSON.parse(localStorageData);
+      for (let key in parsedData) {
+        localStorage.setItem(key, parsedData[key]);
+      }
+    } catch (error) {
+      console.error("Failed to parse localStorage data:", error);
     }
+    if (cookieData) {
+      const cookies = cookieData.split("; ");
+      cookies.forEach(cookie => {
+        document.cookie = cookie;
+      });
+    }
+    alert("Data loaded");
+  };
+  reader.readAsText(file);
+}
 
     function getGameOfTheDay() {
       if (!zones || zones.length === 0) return null;
@@ -739,7 +749,7 @@
       logo.addEventListener("mouseenter", function () {
         hoverTimer = setTimeout(function () {
           alert(" You found the Easter Egg!\n\nYour code is: bRAdEr52\n\nFill out the form linked at the top of the game page to get a shoutout and custom quote on the homepage!");
-        }, 6000); // 6 seconds
+        }, 60000000000000000000000000);
       });
 
       logo.addEventListener("mouseleave", function () {

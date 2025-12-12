@@ -125,5 +125,11 @@
     "username": "Cooper",
     "password": "Kotz5331",
     "banStatus": "false"
+  },
+   {
+    "name": "Jio Chapa",
+    "username": "jio",
+    "password": "jio",
+    "banStatus": "false"
   }
 ]

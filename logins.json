@@ -101,5 +101,11 @@
     "username": "MLP",
     "password": "010129",
     "banStatus": "false"
+  },
+  {
+    "name": "Jhan Mata",
+    "username": "john",
+    "password": "mata",
+    "banStatus": "false"
   }
 ]

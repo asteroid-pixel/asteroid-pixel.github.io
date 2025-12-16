@@ -4643,17 +4643,6 @@
       "port"
     ]
   },
-  {
-    "id": 524,
-    "name": "Parappa The Rapper",
-    "cover": "{COVER_URL}/524.png",
-    "url": "{HTML_URL}/524.html",
-    "author": "NanaOn-Sha",
-    "authorLink": "https://www.nanaon-sha.co.jp/",
-    "special": [
-      "emulator"
-    ]
-  },
    {
     "id": 525,
     "name": "Friday Night Funkin': Darkness Takeover",

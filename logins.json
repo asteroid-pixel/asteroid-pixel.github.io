@@ -143,5 +143,29 @@
     "username": "Remix",
     "password": "Student90",
     "banStatus": "false"
+  },
+   {
+    "name": "Jaxon Scott",
+    "username": "AgentJackattack",
+    "password": "jaxonscott5241",
+    "banStatus": "false"
+  },
+   {
+    "name": "Aidan Pruski",
+    "username": "AP#1",
+    "password": "5561",
+    "banStatus": "false"
+  },
+  {
+    "name": "Janszen Pfeifer",
+    "username": "J_DuB",
+    "password": "Agkid123",
+    "banStatus": "false"
+  },
+  {
+    "name": "Reyna Rivas",
+    "username": "MRS.67awesome",
+    "password": "5347",
+    "banStatus": "false"
   }
 ]
